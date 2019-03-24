@@ -148,4 +148,14 @@ export class Layer {
         }
         return result;
     }
+
+    public getValues(date: number): number[] {
+        let result = [];
+        for (let i = 0; i < this.subLayers.length; i++) {
+            if (this.subLayers[i].visible && this.subLayers[i].dates[date]) {
+                result.push(this.subLayers[i].dates[date])
+            }
+        }
+        return result;
+    }
 }

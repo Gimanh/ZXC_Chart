@@ -152,8 +152,8 @@ var Chart = /** @class */ (function () {
         this.initializeCanvas();
         this.initializeHeightAndWidth();
         this.initializeLayers();
-        this.initializeMinMaxValues();
         this.initializeDates();
+        this.initializeMinMaxValues();
         this.initializeYValues();
         if (this.$options.showPreview) {
             this.createPreviewCanvas();
@@ -393,14 +393,18 @@ var Chart = /** @class */ (function () {
         }
     };
     Chart.prototype.initializeMinMaxValues = function () {
-        var minimums = [], maximums = [];
+        var values = [];
+        var si = this.$startDatesIndex > 1 ? this.$startDatesIndex - 1 : this.$startDatesIndex;
         for (var i = 0; i < this.$layers.length; i++) {
-            var layer = this.$layers[i];
-            minimums.push(layer.min);
-            maximums.push(layer.max);
+            for (var k = si; k < si + this.$sectionsCountXDates + 1; k++) {
+                var date = this.$allDatesOfVisibleLayers[k];
+                var layer = this.$layers[i];
+                var resSubLayers = layer.getValues(date);
+                values = values.concat(resSubLayers);
+            }
         }
-        this.$minYValue = Math.min.apply(null, minimums);
-        this.$maxYValue = Math.max.apply(null, maximums);
+        this.$minYValue = Math.min.apply(null, values);
+        this.$maxYValue = Math.max.apply(null, values);
     };
     Chart.prototype.initializeDates = function () {
         this.$allDatesOfVisibleLayers = [];
@@ -541,6 +545,8 @@ var Chart = /** @class */ (function () {
     };
     Chart.prototype.draw = function () {
         this.initializeDeltas();
+        this.initializeMinMaxValues();
+        this.initializeYValues();
         this.$ctx.clearRect(0, 0, this.$canvasWidth, this.$canvasHeight);
         if (!this.$isPreview) {
             // this.drawXDateBottomLine();
@@ -575,6 +581,7 @@ var Chart = /** @class */ (function () {
     Chart.prototype.drawRange = function (startIndex, sectionCount) {
         this.$startDatesIndex = startIndex;
         this.$sectionsCountXDates = sectionCount;
+        // this.initializeMinMaxValues();
         this.initializeDeltas();
         this.$totalMouseOffset = -this.$startDatesIndex * this.$deltaXDates;
         this.draw();
@@ -594,8 +601,8 @@ var Chart = /** @class */ (function () {
         this.$rangePreview.$chart.$themeDark = this.$themeDark;
     };
     Chart.prototype.updateAllStateForRedraw = function () {
-        this.initializeMinMaxValues();
         this.initializeDates();
+        this.initializeMinMaxValues();
         this.initializeYValues();
         if (this.$startDatesIndex + this.$sectionsCountXDates > this.$allDatesOfVisibleLayers.length) {
             this.$startDatesIndex = 0;
@@ -777,6 +784,15 @@ var Layer = /** @class */ (function () {
                     value: this.subLayers[i].dates[date],
                     color: this.subLayers[i].color
                 });
+            }
+        }
+        return result;
+    };
+    Layer.prototype.getValues = function (date) {
+        var result = [];
+        for (var i = 0; i < this.subLayers.length; i++) {
+            if (this.subLayers[i].visible && this.subLayers[i].dates[date]) {
+                result.push(this.subLayers[i].dates[date]);
             }
         }
         return result;

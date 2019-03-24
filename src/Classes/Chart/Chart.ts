@@ -105,8 +105,8 @@ export class Chart {
         this.initializeHeightAndWidth();
 
         this.initializeLayers();
-        this.initializeMinMaxValues();
         this.initializeDates();
+        this.initializeMinMaxValues();
         this.initializeYValues();
 
         if (this.$options.showPreview) {
@@ -203,6 +203,7 @@ export class Chart {
                 this.$rangePreview.$middleOffsetLeft = (this.$startDatesIndex * this.$rangePreview.$chart.$deltaXDates + this.$rangePreview.$chart.$marginLeft);
                 this.clearValuesHTML();
             } else {
+
                 let parentOffset = this.$canvas.parentElement.offsetLeft;
                 let clientX = e.clientX - this.$marginLeft - (this.$deltaXDates / 2);
                 let total = this.$totalMouseOffset - (clientX - parentOffset);
@@ -342,16 +343,18 @@ export class Chart {
     }
 
     public initializeMinMaxValues() {
-        let minimums = [], maximums = [];
-
+        let values: number[] = [];
+        let si = this.$startDatesIndex > 1 ? this.$startDatesIndex - 1 : this.$startDatesIndex;
         for (let i = 0; i < this.$layers.length; i++) {
-            let layer = this.$layers[i];
-            minimums.push(layer.min);
-            maximums.push(layer.max);
+            for (let k = si; k < si + this.$sectionsCountXDates + 1; k++) {
+                let date = this.$allDatesOfVisibleLayers[k];
+                let layer = this.$layers[i];
+                let resSubLayers = layer.getValues(date);
+                values = values.concat(resSubLayers);
+            }
         }
-
-        this.$minYValue = Math.min.apply(null, minimums);
-        this.$maxYValue = Math.max.apply(null, maximums);
+        this.$minYValue = Math.min.apply(null, values);
+        this.$maxYValue = Math.max.apply(null, values);
     }
 
     private initializeDates() {
@@ -511,6 +514,8 @@ export class Chart {
 
     public draw() {
         this.initializeDeltas();
+        this.initializeMinMaxValues();
+        this.initializeYValues();
         this.$ctx.clearRect(0, 0, this.$canvasWidth, this.$canvasHeight);
         if (!this.$isPreview) {
             // this.drawXDateBottomLine();
@@ -553,6 +558,7 @@ export class Chart {
     public drawRange(startIndex: number, sectionCount: number) {
         this.$startDatesIndex = startIndex;
         this.$sectionsCountXDates = sectionCount;
+        // this.initializeMinMaxValues();
         this.initializeDeltas();
         this.$totalMouseOffset = -this.$startDatesIndex * this.$deltaXDates;
         this.draw();
@@ -573,8 +579,8 @@ export class Chart {
     }
 
     public updateAllStateForRedraw() {
-        this.initializeMinMaxValues();
         this.initializeDates();
+        this.initializeMinMaxValues();
         this.initializeYValues();
         if (this.$startDatesIndex + this.$sectionsCountXDates > this.$allDatesOfVisibleLayers.length) {
             this.$startDatesIndex = 0;
