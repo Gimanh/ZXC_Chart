@@ -1,0 +1,255 @@
+.zxc-chart-container {
+    /*border: 1px grey dashed;*/
+}
+
+.zxc-chart-container_preview {
+    width: 100%;
+    position: relative;
+}
+
+.zxc-chart-container_legend {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 65px;
+    height: 50px;
+    opacity: 0.5;
+}
+.zxc-chart-container_legend:hover{
+    width: auto;
+    height: auto;
+    opacity: 1;
+}
+.zxc-chart-container_label_container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.zxc-chart-container_legend_block {
+    /*float: left;*/
+    margin: 5px;
+    /*background: #787878;*/
+}
+
+.zxc-chart-container_label_container_label_element {
+    width: 120px;
+    height: 50px;
+    border-radius: 40px;
+    background: #cdd6ce;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.zxc-chart-container_label_container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.zxc-chart-container_label_container_checkmark {
+    position: absolute;
+    top: 0;
+    left: 3px;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+.zxc-chart-container_label_container:hover input ~ .zxc-chart-container_label_container_checkmark {
+    background-color: #ccc;
+}
+
+.zxc-chart-container_label_container input:checked ~ .zxc-chart-container_label_container_checkmark {
+    background-color: #2196F3;
+}
+
+.zxc-chart-container_label_container_checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.zxc-chart-container_label_container input:checked ~ .zxc-chart-container_label_container_checkmark:after {
+    display: block;
+}
+
+.zxc-chart-container_label_container .zxc-chart-container_label_container_checkmark:after {
+    left: 15px;
+    top: 11px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.zxc-chart-container_label_container_checkmark_span {
+    position: absolute;
+    background-color: #FFF;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 40px;
+    width: 40px;
+}
+
+.zxc-chart-container_preview > .zxc-chart-container {
+    position: absolute;
+    z-index: 1;
+}
+
+.zxc-chart-container_range_canvas {
+
+}
+
+.zxc-chart-container_range_box_wrapper {
+    /*display: flex;*/
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 2;
+}
+
+.zxc-chart-container_range_box_wrapper_children_box {
+    position: absolute;
+    height: 100%;
+    /*background: aqua;*/
+}
+
+.zxc-chart-container_range_box_wrapper_box_middle {
+    width: 220px;
+    background: rgba(201, 138, 58, 0.22) !important;
+}
+
+.zxc-chart-container_range_box_wrapper_box_middle-edges {
+    position: absolute;
+    width: 7px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+.zxc-chart-container_range_box_wrapper_box_middle-edge-left {
+    float: left;
+}
+
+.zxc-chart-container_range_box_wrapper_box_middle-edge-right {
+    float: right;
+    right: 0;
+}
+
+/*********/
+.wrapper {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 5;
+}
+
+.box {
+    position: absolute;
+    height: 100%;
+    background: rgba(244, 249, 251, 0.80);
+}
+
+.middle {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+}
+
+.edges-left {
+    float: left;
+    cursor: ew-resize;
+}
+
+.edges-right {
+    float: right;
+    cursor: ew-resize;
+}
+
+.edges {
+    height: 100%;
+    width: 7px;
+    background: rgba(218, 235, 244, 0.91);
+}
+
+.right-box {
+    right: 0;
+}
+
+.date-div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #cccccc;
+    display: none;
+}
+
+.canvas-wrapper {
+    position: relative;
+}
+
+.canvas-wrapper:hover .date-div {
+    display: block;
+}
+
+.canvas-wrapper:hover .date-values-div {
+    display: flex;
+}
+
+.date-values-div {
+    position: absolute;
+    width: 150px;
+    min-height: 50px;
+    background: #FFFFFF;
+    top: 5px;
+    box-shadow: 0 0 4px rgb(29, 41, 56);
+    border-radius: 5px;
+
+    justify-content: space-around;
+    flex-flow: row wrap;
+    display: none;
+}
+
+.date-values-div_header {
+    flex: 0 0 100%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.date-values-div_content {
+    display: flex;
+    flex-flow: row wrap;
+    text-align: justify;
+    padding-left: 15px;
+}
+
+.date-values-div_content > div {
+    flex: 0 0 50%;
+    margin-bottom: 5px;
+}
+
+.zxc-chart-layer-label {
+    display: flex;
+    padding: 10px;
+}
