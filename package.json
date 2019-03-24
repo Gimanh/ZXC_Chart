@@ -1,0 +1,19 @@
+{
+  "name": "zxc_charts",
+  "version": "0.0.1",
+  "description": "Charts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --watch"
+  },
+  "author": "Giman Nikolay",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^11.11.0",
+    "ts-loader": "^4.0.0-beta.0",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}

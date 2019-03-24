@@ -1,0 +1,1 @@
+Open `./build/index.html` in browser
